@@ -5,7 +5,16 @@ import { Box, Star, Grid, Package, FileArchive} from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Settings, LayoutDashboard, DollarSign,LogOut, ChevronDown } from "lucide-react";
 import Link from 'next/link';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 
 const NavbarSidebar: React.FC = () => {
@@ -43,7 +52,67 @@ const NavbarSidebar: React.FC = () => {
             <div className="flex items-center">
               <div className="relative">
                 <div className="flex items-center ms-3  mr-6">
-                  <div className="sm:ml-64 ml-1 mr-4">
+                <div>
+                  {/* Dialog Component */}
+                  <Dialog>
+                    {/* Trigger Button */}
+                    <DialogTrigger asChild>
+                      <Button className="bg-gray-300 text-black hover:bg-gray-200">
+                        Edit
+                      </Button>
+                    </DialogTrigger>
+                    {/* Dialog Content */}
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Edit Details</DialogTitle>
+                        <DialogDescription>
+                          Make changes to the following fields and save them.
+                        </DialogDescription>
+                      </DialogHeader>
+
+                      {/* Form Fields */}
+                      <form>
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium mb-1" htmlFor="title">
+                            Title
+                          </label>
+                          <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none"
+                            placeholder="Enter title"
+                          />
+                        </div>
+
+                        <div className="mb-4">
+                          <label
+                            className="block text-sm font-medium mb-1"
+                            htmlFor="description"
+                          >
+                            Description
+                          </label>
+                          <textarea
+                            id="description"
+                            name="description"
+                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none resize-none"
+                            placeholder="Enter description"
+                            rows={4}
+                          />
+                        </div>
+                      </form>
+
+                      {/* Dialog Actions */}
+                      <DialogFooter>
+                        <Button variant="secondary">Cancel</Button>
+                        <Button className="bg-blue-500 text-white hover:bg-blue-600">
+                          Save
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+                  <div className="ml-4 mr-4">
                     {/* Dropdown Button */}
                     <Button className=''>
                       Share

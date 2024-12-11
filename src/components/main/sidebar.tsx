@@ -1,122 +1,75 @@
-"use client";
-import React, { useState, useEffect, useRef } from 'react';
-import { Home, Users,User, Briefcase, Settings, Calendar, LogOut, Laptop, Award, LayoutDashboard } from 'lucide-react';
+'use client';
+import React, { useState } from 'react';
+import { Plus, Minus, Menu } from 'lucide-react';
+import { Box, Star, Grid, Package, FileArchive} from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Settings, LayoutDashboard, DollarSign,LogOut, ChevronDown } from "lucide-react";
+import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
-const Sidebar: React.FC = () => {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const sidebarRef = useRef<HTMLDivElement | null>(null); // Create a ref for the sidebar
 
+const Navbar: React.FC = () => {
+  // State to manage the dropdown visibility
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  // State to manage the sidebar visibility on mobile
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Toggle dropdown visibility
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  // Toggle sidebar visibility
   const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
+    setSidebarOpen(!sidebarOpen);
   };
-
-  // Function to close sidebar if click is outside of it
-  const handleClickOutside = (event: MouseEvent) => {
-    if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
-      setSidebarOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    // Add event listener for click outside when sidebar is open
-    if (isSidebarOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    // Cleanup the event listener when component is unmounted or sidebar is closed
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isSidebarOpen]);
+  
 
   return (
     <>
-      {/* Button to toggle sidebar */}
-      <button
-        onClick={toggleSidebar}
-        aria-controls="default-sidebar"
-        type="button"
-        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-      >
-        <span className="sr-only">Open sidebar</span>
-        <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path clipRule="evenodd" fillRule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-        </svg>
-      </button>
-
-      {/* Sidebar */}
-      <aside
-        id="default-sidebar"
-        ref={sidebarRef} // Attach the ref to the sidebar element
-        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } sm:translate-x-0`} // Toggle class based on isSidebarOpen state
-        aria-label="Sidebar"
-      >
-        <div className="h-full py-6 px-3 overflow-y-auto bg-blue-50 dark:bg-gray-800">
-        <span className="flex justify-center text-center  mb-4 self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-        <LayoutDashboard size={28} className='sm:mr-2 mr-1' />Hud<span className='text-blue-600'>dle</span>
-        </span>
-          <ul className="space-y-2 font-medium">
-            {/* Sidebar menu items */}
-            <li>
-              <a
-                href="#"
-                className="p-1 flex items-center text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              ><Home className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                <span className="ms-3">Home</span>
+      <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-50 dark:bg-gray-800 dark:border-gray-700">
+        <div className="py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center justify-start rtl:justify-end">
+              <a href="/" className="flex ms-2 md:me-24">
+                <FileArchive size={28} className='sm:mr-2 mr-1 ml-1' />
+                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+                  LIVE<span className='text-blue-600'>DOCS</span>
+                </span>
               </a>
-            </li>
-            <li>
-              <a href="#" className="p-1 flex items-center text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-              <Users className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                <span className="flex-1 ms-3 whitespace-nowrap">HR</span>
-                <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span>
-              </a>
-            </li>
-            <li>
-            <a href="#" className="p-1 flex items-center text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-            <Briefcase className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-               <span className="flex-1 ms-3 whitespace-nowrap">Admin</span>
-               <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" className="p-1 flex items-center text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-            <User className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-               <span className="flex-1 ms-3 whitespace-nowrap">Employee</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" className="p-1 flex items-center text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"> <Calendar className="w-5 h-5 text-gray-500 dark:text-gray-400" />              <span className="flex-1 ms-3 whitespace-nowrap">Attendance</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" className="p-1 flex items-center text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-            <Laptop className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-               <span className="flex-1 ms-3 whitespace-nowrap">Webinar</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" className="p-1 flex items-center text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-            <Award className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-               <span className="flex-1 ms-3 whitespace-nowrap">Training</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" className="p-1 flex items-center text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-            <LogOut className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-               <span className="flex-1 ms-3 whitespace-nowrap">Logout</span>
-            </a>
-         </li>
-            {/* Other menu items */}
-          </ul>
+            </div>
+            <div className="flex items-center">
+              <div className="relative">
+                <div className="flex items-center ms-3  mr-6">
+                  <div className="ml-4 mr-4">
+                    {/* Dropdown Button */}
+                    <Button className=''>
+                      Share
+                    </Button>
+                  </div>
+                  <Avatar className='hover:cursor-pointer'>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </aside>
+      </nav>
     </>
   );
 };
 
-export default Sidebar;
+export default Navbar;

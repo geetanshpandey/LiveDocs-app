@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import NavbarSidebar from "@/components/main/navbarsidebar";
+import Navbar from "@/components/main/sidebar";
 import { toast } from "sonner"; // Import Sonner components
 import Link from "next/link";
 import { randomInt, randomUUID } from "crypto";
@@ -42,14 +42,14 @@ const DocumentPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-      <NavbarSidebar />
+      <Navbar/>
 
       {/* Main Section */}
-      <main className="p-6 mt-20">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold ml-56">All Documents</h2>
+      <main className="p-6 mt-20 overflow-y-hidden">
+        <div className="flex justify-around items-center mb-6 overflow-hidden">
+          <h2 className="text-2xl font-semibold">All Documents</h2>
           {/* Action Buttons */}
-          <div className="flex mr-56">
+          <div className="flex">
             <Button
               variant="default"
               className="bg-blue-600"
@@ -61,7 +61,7 @@ const DocumentPage: React.FC = () => {
         </div>
 
         {/* Document List */}
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4 overflow-auto-y">
           {documents.length > 0 ? (
             documents.map((doc, index) => (
               <Link
